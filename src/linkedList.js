@@ -6,12 +6,11 @@ var makeLinkedList = function(){
 
   list.addToTail = function(value){
     //make a node
-    var node = makeNode(value);
+    var node = makeNode(value, list.tail);
     //if new list, adding a new node-->head to point to new node
-    if(list.head === null) {
-      list.tail = node;
-    }
-    
+    //node.next = list.tail;
+    list.tail = node;
+
     //point node's next value-->tail
     //tail-->new node
   };
@@ -25,10 +24,10 @@ var makeLinkedList = function(){
   return list;
 };
 
-var makeNode = function(value){
+var makeNode = function(value, next){
   var node = {};
   node.value = value;
-  node.next = null;
+  node.next = next;
 
   return node;
 };
