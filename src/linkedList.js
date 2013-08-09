@@ -5,23 +5,46 @@ var makeLinkedList = function(){
   list.tail = null;
 
   list.addToTail = function(value){
-    //make a node
-    var node = makeNode(value, list.tail);
-    //if new list, adding a new node-->head to point to new node
-    // node.next = list.tail;
-    if(list.head === null) {
-      list.head = node;
-    } else {
-      list.tail.prev = node;
+    var newNode = makeNode(value);
+    if(list.tail !== null) {
+      list.tail.next = newNode;
+      newNode.prev = list.tail;
     }
-    list.tail = node;
+    if(list.head === null) {
+      list.head = newNode;
+    }
+
+    list.tail = newNode;
   };
 
   list.removeHead = function(){
-    return list.head.value;
+    if(list.head === null) {
+      return 'no more in the list';
+    }
+    var result = list.head.value;
+    if(list.head.next !== null) {
+      list.head = list.head.next;
+      list.head.prev = null;
+    } else {
+      list.head = null;
+    }
+
+    return result;
   };
 
-  list.contains = function(){
+  list.contains = function(value){
+    var hasValue = function(checkNode) {
+      if(checkNode === null){
+        return false;
+      } else if(value === checkNode.value) {
+        return true;
+      } else if(checkNode === list.tail) {
+        return false;
+      } else {
+        return hasValue(checkNode.next);
+      }
+    };
+    return hasValue(list.head);
   };
 
   return list;
@@ -30,7 +53,7 @@ var makeLinkedList = function(){
 var makeNode = function(value, next){
   var node = {};
   node.value = value;
-  node.next = (next===undefined) ? null : next;
+  node.next = null;
   node.prev = null;
 
   return node;
@@ -38,5 +61,5 @@ var makeNode = function(value, next){
 
 
 
-////tail                 head
+  //head                 tail 
   // 8  --> 4 ---> 6 ---> 1 
