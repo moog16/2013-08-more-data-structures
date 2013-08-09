@@ -16,18 +16,6 @@ describe("linkedList", function() {
     expect(linkedList.contains).toEqual(jasmine.any(Function));
   });
 
-  // add more tests here to test the functionality of linkedList
-  it("should add new node to empty list, and head should equal null", function() {
-    expect(linkedList.addToTail('a')).toEqual(linkedList.head = null);
-  });
-
-  // add more tests here to test the functionality of linkedList
-  it("should add new node to empty list, and tail should equal the new node", function() {
-    var node = makeNode('a');
-    linkedList.addToTail('a');
-
-    expect(linkedList.tail).toEqual(node);
-  });
 
   it("should have methods named 'addToTail', 'removeHead', and 'contains'", function() {
     expect(linkedList.addToTail).toEqual(jasmine.any(Function));
@@ -35,51 +23,37 @@ describe("linkedList", function() {
     expect(linkedList.contains).toEqual(jasmine.any(Function));
   });
 
-  it("should set head on first item added", function() {
-    var node = makeNode('a');
+  it("should have removeHead = original node after two or more items added", function() {
     linkedList.addToTail('a');
-    expect(linkedList.head).toEqual(node);
-  });
-
-  it("should have list.head = original node after two items added", function() {
-    
-    // var node1 = makeNode('a');
-    linkedList.addToTail('a');
-
-    // var node2 = makeNode('b');
-    // var tail = node1;
-    // tail.next = node2;
     linkedList.addToTail('b');
 
     expect(linkedList.removeHead()).toEqual('a');
   });
 
-  it("should list.tail = newNode after two items added", function() {
-    //debugger;
-
-    var node1 = makeNode('a');
+  it("should return 2nd item after removing two items", function() {
     linkedList.addToTail('a');
-
-    var node2 = makeNode('b');
-    var tail = node1;
-    tail.next = node2;
     linkedList.addToTail('b');
+    linkedList.removeHead();
 
-    expect(linkedList.tail).toEqual(node2);
+    expect(linkedList.removeHead()).toEqual('b');
   });
 
-  it("should list.next = null after two items added", function() {
-    var node1 = makeNode('a');
-    linkedList.addToTail('a');
-
-    var node2 = makeNode('b');
-    var tail = node1;
-    tail.next = node2;
-    linkedList.addToTail('b');
-
-    expect(linkedList.next).toEqual(null);
+  it("contains should return false with nothing in the list", function() {
+    expect(linkedList.contains('c')).toEqual(false);
   });
 
+  it("contains should return true after adding 'a' in list", function() {
+    linkedList.addToTail('a');
+    linkedList.addToTail('b');
 
-  
+    expect(linkedList.contains('a')).toEqual(true);
+  });
+
+  it("contains should return true after adding 'c' as the second list in the item", function() {
+    linkedList.addToTail('a');
+    linkedList.addToTail('b');
+    linkedList.addToTail('c');
+
+    expect(linkedList.contains('c')).toEqual(true);
+  });
 });

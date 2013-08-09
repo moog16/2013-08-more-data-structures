@@ -33,9 +33,10 @@ var makeLinkedList = function(){
   };
 
   list.contains = function(value){
-    var result;
     var hasValue = function(checkNode) {
-      if(value === checkNode.value) {
+      if(checkNode === null){
+        return false;
+      } else if(value === checkNode.value) {
         return true;
       } else if(checkNode === list.tail) {
         return false;
@@ -44,7 +45,6 @@ var makeLinkedList = function(){
       }
     };
     return hasValue(list.head);
-    //return result;
   };
 
   return list;
