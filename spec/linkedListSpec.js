@@ -54,6 +54,7 @@ describe("linkedList", function() {
   });
 
   it("should list.tail = newNode after two items added", function() {
+    //debugger;
     var node1 = makeNode('a');
     linkedList.addToTail('a');
 
