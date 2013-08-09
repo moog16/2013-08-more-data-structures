@@ -16,37 +16,20 @@ treeMethods.addChild = function(val){
   this.children.push(childTree);
 };
 
+
 treeMethods.contains = function(val) {
   var root = this;
-
+  var result = false;
   var hasValue = function(tree) {
-    for(var i=0; i<tree.length; i++) {
-      if(tree[i].value === val) {
-        return true;
-      } else if(tree[i].children.length > 0) {
-        return hasValue(tree[i].children);
-      } else {
-        return false;
+    if(tree.value === val) {
+      result = true;
+    } else {
+      for(var i = 0; i < tree.children.length; i++) {
+        hasValue(tree.children[i]);
       }
     }
+    return result;
   };
 
-  return this.value === val ? true : hasValue(root.children);
+  return hasValue(root);
 };
-
-/*treeMethods.contains = function(val){
-  var root = this;
-  var hasValue = function(tree) {
-    for(var i=0; i<tree.length; i++) {
-      if(tree[i].value === val) {
-        return true;
-      }
-    }
-    hasValue(tree[0].children);
-  };
-  if(root.value === val) {
-    return true;
-  } else {
-    return hasValue(root.children);
-  }
-};*/
