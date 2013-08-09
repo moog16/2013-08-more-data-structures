@@ -32,8 +32,19 @@ var makeLinkedList = function(){
     return result;
   };
 
-  list.contains = function(){
-
+  list.contains = function(value){
+    var result;
+    var hasValue = function(checkNode) {
+      if(value === checkNode.value) {
+        return true;
+      } else if(checkNode === list.tail) {
+        return false;
+      } else {
+        return hasValue(checkNode.next);
+      }
+    };
+    return hasValue(list.head);
+    //return result;
   };
 
   return list;

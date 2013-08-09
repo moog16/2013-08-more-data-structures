@@ -42,19 +42,21 @@ describe("linkedList", function() {
   });
 
   it("should have list.head = original node after two items added", function() {
-    var node1 = makeNode('a');
+    
+    // var node1 = makeNode('a');
     linkedList.addToTail('a');
 
-    var node2 = makeNode('b');
-    var tail = node1;
-    tail.next = node2;
+    // var node2 = makeNode('b');
+    // var tail = node1;
+    // tail.next = node2;
     linkedList.addToTail('b');
 
-    expect(linkedList.head).toEqual(node1);
+    expect(linkedList.removeHead()).toEqual('a');
   });
 
   it("should list.tail = newNode after two items added", function() {
     //debugger;
+
     var node1 = makeNode('a');
     linkedList.addToTail('a');
 
