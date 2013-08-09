@@ -6,7 +6,7 @@ var makeLinkedList = function(){
 
   list.addToTail = function(value){
     var newNode = makeNode(value);
-    if(list.head !== list.tail){
+    if(list.head !== null){
       list.tail.next = newNode;
       newNode.prev = list.tail;
     } else {
