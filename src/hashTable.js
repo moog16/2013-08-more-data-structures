@@ -15,7 +15,13 @@ var HashTable = function(){
 HashTable.prototype.insert = function(k, v){
   var i = getIndexBelowMaxForKey(k, this._limit);
   console.log(i);
-  this._storage.set(i, v);
+  if(this._storage.get(i) !== undefined) {
+    this._storage.set(i, [k,v]);
+  } else {
+    var oldValue = this._storage.get(i);
+    var newValue = oldValue.concat([k,v]);
+    this._storage.set(i, newValue);
+  }
 };
 
 HashTable.prototype.retrieve = function(k){
@@ -23,9 +29,14 @@ HashTable.prototype.retrieve = function(k){
   return this._storage.get(i);
 };
 
-HashTable.prototype.remove = function(){
+HashTable.prototype.remove = function(){ 
 };
+
+
 
 // NOTE: For this code to work, you will NEED the code from hashTableHelpers.js
 // Start by loading those files up and playing with the functions it provides.
 // You don't need to understand how they work, only their interface is important to you
+
+//getIndexBelowMaxForKey(str, max)
+//makeLimitedArray(limit)
