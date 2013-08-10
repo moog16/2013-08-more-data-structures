@@ -32,6 +32,9 @@ treeMethods.contains = function(val) {
     }
     return result;
   };
+  
+  return hasValue(root);
+};
 
 treeMethods.removeFromParent = function() {
   var parent = this.parent;
@@ -43,7 +46,4 @@ treeMethods.removeFromParent = function() {
       childArray.splice(i, 1);
     }
   }
-};
-
-  return hasValue(root);
 };

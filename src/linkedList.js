@@ -33,44 +33,33 @@ var makeLinkedList = function(){
   };
 
   list.removeHead = function(){
-    var result = list.head.value;  // gather the value
-    if(list.head.next !== null) {  //a tail value exist (at least two elements in the list)
-      list.head = list.head.next;  //set a new head to whatever follows it
-      list.head.prev = null;  //new head has no previous node
-    } else if(list.head === list.tail) {  //one node in list
-      list.head = null;  //remove head
-      list.tail = null;  //remove tail
-    }
+    var result = list.head.value; //gather value
+    remove(list.head);
 
     return result;
   };
 
   list.removeTail = function() {
     var result = list.tail.value;  //gather the value
-    if(list.tail.prev !== null) {
-      list.tail = list.tail.prev;
-      list.tail.next = null;
-    } else if(list.head === list.tail) {
-      list.head = null;
-      list.tail = null;
-    }
+    remove(list.tail);
 
     return result;
   };
 
+  var remove = function(node) {
+    if(node === list.tail && node.prev !== null) {
+      list.tail = list.tail.prev;
+      list.tail.next = null;
+    } else if(node === list.head && node.next !== null) {  //a tail value exist (at least two elements in the list)
+      list.head = list.head.next;  //set a new head to whatever follows it
+      list.head.prev = null;  //new head has no previous node
+    }else if(list.head === list.tail) {
+      list.head = list.tail = null;
+    }
+  };
+
   list.contains = function(value){
-    var hasValue = function(checkNode) {
-      if(checkNode === null){
-        return false;
-      } else if(value === checkNode.value) {
-        return true;
-      } else if(checkNode === list.tail) {
-        return false;
-      } else {
-        return hasValue(checkNode.next);
-      }
-    };
-    return hasValue(list.head);
+    return this.head !== null ? this.head.contains(value) : false;
   };
 
   return list;
@@ -82,10 +71,9 @@ var makeNode = function(value, next){
   node.next = null;
   node.prev = null;
 
+  node.contains = function(val) {
+    return this.value === val || (this.next && this.next.contains(val)) || false;
+  };
+
   return node;
 };
-
-
-
-  //head                 tail 
-  // 8  --> 4 ---> 6 ---> 1 
