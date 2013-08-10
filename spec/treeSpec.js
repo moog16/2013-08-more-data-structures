@@ -67,7 +67,7 @@ describe("tree", function() {
     expect(tree.contains('hello')).toEqual(false);
   });
 
-    it("should count the correct number of children in children array", function() {
+  it("should count the correct number of children in children array", function() {
     tree.addChild('a');
     tree.addChild('b');
     tree.addChild('c');
@@ -78,7 +78,7 @@ describe("tree", function() {
     expect(tree.children.length).toEqual(3);
   });
 
-    it("should count the correct number of children in children array", function() {
+  it("should count the correct number of children in children array", function() {
     tree.addChild('a');
     tree.addChild('b');
     tree.addChild('c');
@@ -87,5 +87,76 @@ describe("tree", function() {
 
     tree.children[1].addChild('f');
     expect(tree.children[0].children.length).toEqual(2);
+  });
+
+  it("should have correct parent at grandchild", function() {
+    tree.addChild('a');
+    tree.addChild('b');
+    tree.addChild('c');
+
+    tree.children[0].addChild('d');
+    tree.children[0].addChild('e');
+
+    var childA = tree.children[0];
+    var grandChildE = tree.children[0].children[1];
+
+    tree.children[1].addChild('f');
+
+    expect(grandChildE.parent.value).toEqual('a');
+    expect(grandChildE.parent).toEqual(childA);
+  });
+
+  it("should return null if checking root parent tree", function() {
+    tree.addChild('a');
+    tree.addChild('b');
+    tree.addChild('c');
+
+    tree.children[0].addChild('d');
+    tree.children[0].addChild('e');
+
+    var grandChildE = tree.children[0].children[1];
+
+    tree.children[1].addChild('f');
+
+    expect(tree.parent).toEqual(null);
+  });
+
+  it("should contain a null value at tree root", function() {
+    tree.addChild('a');
+    tree.addChild('b');
+    tree.addChild('c');
+
+    tree.children[0].addChild('d');
+    tree.children[0].addChild('e');
+
+    var grandChildE = tree.children[0].children[1];
+    var childA = tree.children[0];
+
+    tree.children[1].addChild('f');
+
+    childA.removeFromParent();
+
+    expect(tree.contains(undefined)).toEqual(true);
+  });
+
+  it("should contain b and f on first element of child array, and not contain a, d, or e", function() {
+    tree.addChild('a');
+    tree.addChild('b');
+    tree.addChild('c');
+
+    tree.children[0].addChild('d');
+    tree.children[0].addChild('e');
+
+    var grandChildE = tree.children[0].children[1];
+    var childA = tree.children[0];
+
+    tree.children[1].addChild('f');
+
+    childA.removeFromParent();
+
+    expect(tree.children[0].contains('f')).toEqual(true);
+    expect(tree.children[0].contains('b')).toEqual(true);
+    expect(tree.contains('a')).toEqual(false);
+    expect(tree.contains('e')).toEqual(false);
   });
 });

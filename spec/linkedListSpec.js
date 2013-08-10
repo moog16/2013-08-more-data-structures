@@ -56,4 +56,70 @@ describe("linkedList", function() {
 
     expect(linkedList.contains('c')).toEqual(true);
   });
+
+  it("adding to head properly adds to an empty list", function() {
+    linkedList.addToHead('a');
+
+    expect(linkedList.contains('a')).toEqual(true);
+  });
+
+  it("adding two nodes to head properly adds to an list", function() {
+    linkedList.addToHead('a');
+    linkedList.addToHead('b');
+
+    expect(linkedList.head.value).toEqual('b');
+  });
+
+
+  it("removing tail returns proper value", function() {
+    linkedList.addToHead('a');
+    linkedList.addToHead('b');
+    linkedList.addToHead('c');
+    linkedList.removeTail();
+
+    expect(linkedList.contains('a')).toEqual(false);
+    expect(linkedList.contains('b')).toEqual(true);
+  });
+
+  it("performs the ultimate test", function() {
+    for(var i=0; i<100; i++) {
+      linkedList.addToHead('addHead' + i);
+    }
+    for(var j=300; j>250; j--) {
+      linkedList.addToTail('addTail' + j);
+    }
+    for(var k=0; k< 20; k++) {
+      linkedList.removeHead();
+    }
+    linkedList.removeTail();
+
+    expect(linkedList.contains('addTail251')).toEqual(false);
+    expect(linkedList.contains('addTail252')).toEqual(true);
+    expect(linkedList.contains('addHead79')).toEqual(true);
+
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
