@@ -14,7 +14,7 @@ var HashTable = function(){
 
 HashTable.prototype.insert = function(k, v){
   var i = getIndexBelowMaxForKey(k, this._limit);  //index from the hash function
-  console.log(i);
+  //console.log(i);
   if(this._storage.get(i) === undefined) {  //check if this is the first value at the index of the hashTable
     this._storage.set(i, [k,v]);  //set an array containing key,value pair at index
   } else {  //if there is already a key/value pair (if there is a collision)
