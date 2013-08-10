@@ -20,30 +20,18 @@ treeMethods.addChild = function(val){
 
 
 treeMethods.contains = function(val) {
-  var root = this;
-  var result = false;
-  var hasValue = function(tree) {
-    if(tree.value === val) {
-      result = true;
-    } else {
-      for(var i = 0; i < tree.children.length; i++) {
-        hasValue(tree.children[i]);
-      }
-    }
-    return result;
-  };
-  
-  return hasValue(root);
+  return _(this.children).reduce(function(hasValue, child){
+    return hasValue || child.contains(val);
+  }, this.value === val);
 };
 
 treeMethods.removeFromParent = function() {
   var parent = this.parent;
-  var childArray = parent.children;
   this.parent = null;  //child says he has no parent
-
-  for(var i=0; i<childArray.length; i++) {  //emancipating the child from the parent
-    if(childArray[i] === this) {
-      childArray.splice(i, 1);
+  var node = this;
+  _(parent.children).each(function(child, i) {
+    if(child === node) {
+      parent.children.splice(i, 1);
     }
-  }
+  });
 };
