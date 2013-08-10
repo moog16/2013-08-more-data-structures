@@ -30,6 +30,7 @@ describe("linkedList", function() {
   });
 
   it("should return 2nd item after removing two items", function() {
+    //debugger;
     linkedList.addToTail('a');
     linkedList.addToTail('b');
     linkedList.removeHead();

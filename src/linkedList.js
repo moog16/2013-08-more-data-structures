@@ -17,16 +17,42 @@ var makeLinkedList = function(){
     list.tail = newNode;
   };
 
-  list.removeHead = function(){
-    if(list.head === null) {
-      return 'no more in the list';
+  list.addToHead = function(value) {
+    var newNode = makeNode(value);
+    //case: list is empty
+    if(list.tail === null) {
+      list.tail = newNode;
     }
-    var result = list.head.value;
-    if(list.head.next !== null) {
-      list.head = list.head.next;
-      list.head.prev = null;
-    } else {
+    //case: add to list with multiple items in list
+    if(list.head !== null) {
+      newNode.next = list.head;
+      list.head.prev = newNode;
+    }
+
+    list.head = newNode;
+  };
+
+  list.removeHead = function(){
+    var result = list.head.value;  // gather the value
+    if(list.head.next !== null) {  //a tail value exist (at least two elements in the list)
+      list.head = list.head.next;  //set a new head to whatever follows it
+      list.head.prev = null;  //new head has no previous node
+    } else if(list.head === list.tail) {  //one node in list
+      list.head = null;  //remove head
+      list.tail = null;  //remove tail
+    }
+
+    return result;
+  };
+
+  list.removeTail = function() {
+    var result = list.tail.value;  //gather the value
+    if(list.tail.prev !== null) {
+      list.tail = list.tail.prev;
+      list.tail.next = null;
+    } else if(list.head === list.tail) {
       list.head = null;
+      list.tail = null;
     }
 
     return result;
