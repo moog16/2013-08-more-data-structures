@@ -62,3 +62,16 @@ describe("hashTable", function() {
     expect(hashTable.retrieve('val76')).toEqual(76);
   });
 });
+
+
+/*
+var hash = new HashTable();
+hash.insert('1', 'a');
+hash.insert('2', 'b');
+hash.insert('3', 'c');
+hash.insert('4', 'd');
+hash.insert('5', 'e');
+
+hash.retrieve('1');
+hash.retrieve('2');
+*/

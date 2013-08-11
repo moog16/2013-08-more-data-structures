@@ -21,6 +21,9 @@ HashTable.prototype.insert = function(k, v){
     var newValue = oldValue.concat([k,v]);  //concat new key/value pair to oldValue array
     this._storage.set(i, newValue);  //replace previous array value with newly formed key/value pair array
   }
+  if(this.spaceFilled() >= 0.75) {
+    this.expandMem();
+  }
 };
 
 HashTable.prototype.retrieve = function(k){
@@ -44,7 +47,35 @@ HashTable.prototype.remove = function(k){
   this._storage.set(i, slot);
 };
 
+HashTable.prototype.spaceFilled = function() {
+  var tally = 0;
+  for(var i=0; i<this._limit; i++) {
+    var slot = this._storage.get(i);
+    if(slot !== undefined) {
+      tally++;
+    }
+  }
+  return (tally/this._limit);
+};
 
+HashTable.prototype.expandMem = function() {
+  var oldLimit = this._limit;
+  this._limit = this._limit*2;
+  var tempHash = this._storage;  //store old object
+  this._storage = makeLimitedArray(this._limit);  //make new hash with double the size
+  console.log('the limit of the array has double to: ' + this._limit);
+  var keyValueHolder = [];
+  for(var i=0; i<oldLimit; i++) {
+    if(tempHash.get(i) !== undefined) {
+      keyValueHolder.concat(tempHash.get(i));
+    }
+  }
+  for(var j=0; j<(keyValueHolder/2); j++) {
+    var key = keyValueHolder[j]  //evens are keys
+    var value = keyValueHolder[j+1]  //odds are values
+    this._storage.insert(key, value);
+  }
+};
 
 // NOTE: For this code to work, you will NEED the code from hashTableHelpers.js
 // Start by loading those files up and playing with the functions it provides.

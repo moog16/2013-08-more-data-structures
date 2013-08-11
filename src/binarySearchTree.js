@@ -32,7 +32,6 @@ var makeBinarySearchTree = function(){
   };
 
   binaryTree.depthFirstLog = function(callback) {
-    console.log(this.value);
     this.value = callback(this.value);
 
     if(this.left !== null) {
