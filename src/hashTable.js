@@ -14,12 +14,21 @@ var HashTable = function(){
 
 HashTable.prototype.insert = function(k, v){
   var i = getIndexBelowMaxForKey(k, this._limit);  //index from the hash function
-  if(this._storage.get(i) === undefined) {  //check if this is the first value at the index of the hashTable
+  var slot = this._storage.get(i);
+
+  if(slot === undefined) {  //check if this is the first value at the index of the hashTable
     this._storage.set(i, [k,v]);  //set an array containing key,value pair at index
   } else {  //if there is already a key/value pair (if there is a collision)
-    var oldValue = this._storage.get(i);  //get that array of storage, and set oldValue to that array
-    var newValue = oldValue.concat([k,v]);  //concat new key/value pair to oldValue array
-    this._storage.set(i, newValue);  //replace previous array value with newly formed key/value pair array
+    if(this.slotContains(k)) {
+      for(var j=0; j<slot.length; j=j+2) {
+        if(slot[j] === k) {
+          slot[j+1] = v;
+        }
+      }
+    } else {
+      slot = slot.concat([k,v]);
+    }
+    this._storage.set(i, slot);  //replace previous array value with newly formed key/value pair array
   }
   if(this.spaceFilled() >= 0.75) {
     this.expandMem();
@@ -36,7 +45,7 @@ HashTable.prototype.retrieve = function(k){
   }
 };
 
-HashTable.prototype.remove = function(k){
+HashTable.prototype.remove = function(k) {
   var i = getIndexBelowMaxForKey(k, this._limit);
   var slot = this._storage.get(i);  //the array of keys/values at given index i
   for(j=0; j<slot.length; j=j+2) {
@@ -59,22 +68,32 @@ HashTable.prototype.spaceFilled = function() {
 };
 
 HashTable.prototype.expandMem = function() {
-  var oldLimit = this._limit;
-  this._limit = this._limit*2;
-  var tempHash = this._storage;  //store old object
-  this._storage = makeLimitedArray(this._limit);  //make new hash with double the size
-  console.log('the limit of the array has double to: ' + this._limit);
   var keyValueHolder = [];
-  for(var i=0; i<oldLimit; i++) {
-    if(tempHash.get(i) !== undefined) {
-      keyValueHolder.concat(tempHash.get(i));
+  this._storage.each(function(stor, idx) {
+    if(stor !== undefined) {
+      keyValueHolder = keyValueHolder.concat(stor);
     }
-  }
-  for(var j=0; j<(keyValueHolder/2); j++) {
+  });
+  console.log(keyValueHolder);
+  this._limit = this._limit*2;
+  this._storage = makeLimitedArray(this._limit);
+
+  for(var j=0; j<(keyValueHolder.length/2); j++) {
     var key = keyValueHolder[j]  //evens are keys
     var value = keyValueHolder[j+1]  //odds are values
-    this._storage.insert(key, value);
+    this.insert(key, value);
   }
+};
+
+HashTable.prototype.slotContains = function(key) {
+  var i = getIndexBelowMaxForKey(key, this._limit);
+  var slot = this._storage.get(i);
+  for(var i=0; i<slot.length; i=i+2) {
+    if(slot[i] === key) {
+      return true;
+    }
+  }
+  return false;
 };
 
 // NOTE: For this code to work, you will NEED the code from hashTableHelpers.js

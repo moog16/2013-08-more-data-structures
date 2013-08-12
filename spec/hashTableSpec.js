@@ -47,6 +47,7 @@ describe("hashTable", function() {
   });
 
   it("should remove two elements", function(){
+
     for(var i=0; i<100; i++) {
       var k = 'val' + i;
       var v = i;
@@ -55,6 +56,7 @@ describe("hashTable", function() {
 
     expect(hashTable.retrieve('val1')).toEqual(1);
     expect(hashTable.retrieve('val85')).toEqual(85);
+
     hashTable.remove('val1');
     hashTable.remove('val27');
     expect(hashTable.retrieve('val1')).toEqual(undefined);
@@ -62,16 +64,3 @@ describe("hashTable", function() {
     expect(hashTable.retrieve('val76')).toEqual(76);
   });
 });
-
-
-/*
-var hash = new HashTable();
-hash.insert('1', 'a');
-hash.insert('2', 'b');
-hash.insert('3', 'c');
-hash.insert('4', 'd');
-hash.insert('5', 'e');
-
-hash.retrieve('1');
-hash.retrieve('2');
-*/
